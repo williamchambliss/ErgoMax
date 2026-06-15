@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PostureMax Desktop Companion</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-area">
+        <img src="logo.png" class="logo-img" alt="Logo">
+        <h2>PostureMax</h2>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="dashboard">
+          <span class="icon">📊</span> Dashboard
+        </button>
+        <button class="nav-item" data-tab="history">
+          <span class="icon">📈</span> History
+        </button>
+        <button class="nav-item" data-tab="coach">
+          <span class="icon">🧘</span> Posture Coach
+        </button>
+        <button class="nav-item" data-tab="setup">
+          <span class="icon">⚙️</span> Device Setup
+        </button>
+      </nav>
+      <div class="connection-pill-container">
+        <div id="connection-pill" class="connection-pill disconnected">
+          <span class="dot"></span>
+          <span id="pill-status-text">Disconnected</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <!-- DASHBOARD TAB -->
+      <section id="tab-dashboard" class="tab-content active">
+        <header class="tab-header">
+          <h1>Dashboard</h1>
+          <p class="subtitle">Real-time spinal monitoring and rest scheduler</p>
+        </header>
+
+        <div class="dashboard-grid">
+          <!-- Daily Posture Score Module -->
+          <div class="card score-card" id="module-score">
+            <h3>Daily Posture Score</h3>
+            <div class="radial-progress-container">
+              <svg class="radial-progress" viewBox="0 0 100 100">
+                <circle class="bg" cx="50" cy="50" r="42"></circle>
+                <circle class="progress" cx="50" cy="50" r="42" id="score-ring"></circle>
+              </svg>
+              <div class="progress-label" id="score-value">0</div>
+            </div>
+            <div class="encouragement-box">
+              <p id="encouragement-text">Calibrate your device to begin tracking.</p>
+            </div>
+          </div>
+
+          <!-- Standing Break Scheduler Module -->
+          <div class="card timer-card" id="module-timer">
+            <h3>Standing Break Timer</h3>
+            <div class="radial-progress-container">
+              <svg class="radial-progress" viewBox="0 0 100 100">
+                <circle class="bg" cx="50" cy="50" r="42"></circle>
+                <circle class="progress" cx="50" cy="50" r="42" id="timer-ring"></circle>
+              </svg>
+              <div class="progress-label timer-label" id="timer-value">60:00</div>
+            </div>
+            <div class="timer-controls">
+              <p class="info-text">Next stand break due soon. Maintain active alignment.</p>
+            </div>
+          </div>
+
+          <!-- Live Spacial Monitor Module -->
+          <div class="card live-monitor-card" id="module-monitor">
+            <h3>Spinal Alignment Map</h3>
+            <div class="spine-grid">
+              <div class="spine-node left-shoulder" id="node-ub-l">UB_L</div>
+              <div class="spine-node right-shoulder" id="node-ub-r">UB_R</div>
+              <div class="spine-node mid-back" id="node-mb">MB</div>
+              <div class="spine-node lumbar" id="node-l">L</div>
+            </div>
+            <div class="current-state-card">
+              <span>Status:</span>
+              <strong id="live-state-label" class="state-away">Away</strong>
+            </div>
+          </div>
+
+          <!-- Haptic Controls Module -->
+          <div class="card haptic-card" id="module-haptics">
+            <h3>Haptic Settings</h3>
+            <div class="control-group">
+              <label for="haptic-intensity">Vibration Intensity</label>
+              <input type="range" id="haptic-intensity" min="0" max="255" value="128">
+              <div class="intensity-labels">
+                <span>Soft</span>
+                <span id="intensity-val">50%</span>
+                <span>Max</span>
+              </div>
+            </div>
+            <div class="control-group toggle-group">
+              <label class="switch-label">
+                <span>Alert Mode</span>
+                <select id="haptic-mode">
+                  <option value="wave">Cascading Wave (L → MB → UB)</option>
+                  <option value="standard">Standard Pulse</option>
+                </select>
+              </label>
+            </div>
+            <div class="control-group difficulty-group">
+              <label>Difficulty Mode (Auto-Adaptive)</label>
+              <div class="difficulty-badge" id="difficulty-badge">Novice Mode</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HISTORY TAB -->
+      <section id="tab-history" class="tab-content">
+        <header class="tab-header">
+          <h1>Posture History</h1>
+          <p class="subtitle">Macro metrics and weekly progression charts</p>
+        </header>
+
+        <div class="metrics-grid">
+          <!-- Metrics Cards -->
+          <div class="card metric-card">
+            <span class="metric-icon">⏰</span>
+            <div class="metric-info">
+              <h4>Sedentary Stretch</h4>
+              <h2 id="metric-stretch">0 mins</h2>
+              <p>Longest continuous sitting block</p>
+            </div>
+          </div>
+          <div class="card metric-card">
+            <span class="metric-icon">⚖️</span>
+            <div class="metric-info">
+              <h4>Symmetry Index</h4>
+              <h2 id="metric-symmetry">50%</h2>
+              <p>Left vs. Right shoulder load</p>
+            </div>
+          </div>
+          <div class="card metric-card">
+            <span class="metric-icon">⚡</span>
+            <div class="metric-info">
+              <h4>Correction Rate</h4>
+              <h2 id="metric-rate">0s</h2>
+              <p>Avg response to haptic cues</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="history-main-grid">
+          <!-- Progress Chart -->
+          <div class="card chart-card">
+            <h3>Weekly Progress (Daily Score)</h3>
+            <div class="chart-container">
+              <!-- Rendered via canvas/custom logic -->
+              <canvas id="history-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- Health Motivation Card -->
+          <div class="card motivation-card">
+            <h3>Spinal Health Insights</h3>
+            <div class="motivation-slider">
+              <p id="motivation-text">Prolonged sitting restricts blood flow and adds load to the lumbar spine. Interspersing standing breaks every 50-60 minutes decreases static fatigue and improves energy levels.</p>
+              <button class="btn btn-secondary" id="btn-next-insight">Next Tip</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- POSTURE COACH TAB -->
+      <section id="tab-coach" class="tab-content">
+        <header class="tab-header">
+          <h1>Posture Coach</h1>
+          <p class="subtitle">Guided stretch routines and micro-movements</p>
+        </header>
+
+        <div class="coach-grid">
+          <!-- Left side: Resource Bank -->
+          <div class="card resources-card">
+            <h3>Spine & Core Reference Bank</h3>
+            <div class="accordion">
+              <div class="accordion-item">
+                <button class="accordion-header">🧘 Desk Stretches</button>
+                <div class="accordion-content" id="coach-stretches-list">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">💪 Core Activation Guides</button>
+                <div class="accordion-content" id="coach-core-list">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">💻 Ergonomic Setup Rules</button>
+                <div class="accordion-content" id="coach-ergo-list">
+                  <!-- Injected via JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right side: Routine Cards -->
+          <div class="card routines-card">
+            <h3>60-Second Actionable Routines</h3>
+            <div class="routines-list" id="routines-list">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETUP & CALIBRATION TAB -->
+      <section id="tab-setup" class="tab-content">
+        <header class="tab-header">
+          <h1>Device Setup & Calibration</h1>
+          <p class="subtitle">Pair your Arduino and calibrate sensor thresholds</p>
+        </header>
+
+        <div class="setup-grid">
+          <!-- Calibration Wizard -->
+          <div class="card cal-card">
+            <h3>Calibration Wizard</h3>
+            <p>Ensure your chair straps are flat. Sit completely clear of the backrest or in a perfectly relaxed position, then click Calibrate. This defines your baseline zero.</p>
+            <div class="cal-actions">
+              <button class="btn btn-primary" id="btn-calibrate">Start 5s Calibration</button>
+              <div class="cal-countdown-display" id="cal-countdown">Ready</div>
+            </div>
+          </div>
+
+          <!-- Sensor Visual Map -->
+          <div class="card diagram-card">
+            <h3>Sensor Placements</h3>
+            <div class="placement-diagram-container">
+              <svg class="placement-svg" viewBox="0 0 200 240">
+                <!-- Seated Person Outline -->
+                <path d="M 100 20 C 110 20, 120 30, 120 40 C 120 50, 110 60, 100 60 C 90 60, 80 50, 80 40 C 80 30, 90 20, 100 20 Z" fill="#E2E8F0" stroke="#1A2E40" stroke-width="2"/>
+                <path d="M 60 70 L 140 70 L 150 170 L 50 170 Z" fill="#E2E8F0" stroke="#1A2E40" stroke-width="2"/>
+                <!-- Left UB -->
+                <circle cx="75" cy="95" r="8" fill="#FF4D4D" id="diag-ub-l"/>
+                <!-- Right UB -->
+                <circle cx="125" cy="95" r="8" fill="#FF4D4D" id="diag-ub-r"/>
+                <!-- MB -->
+                <circle cx="100" cy="125" r="8" fill="#FF4D4D" id="diag-mb"/>
+                <!-- L -->
+                <circle cx="100" cy="155" r="8" fill="#FF4D4D" id="diag-l"/>
+                <!-- Placement Labels -->
+                <text x="75" y="99" fill="white" font-size="8" text-anchor="middle" font-family="Inter">L</text>
+                <text x="125" y="99" fill="white" font-size="8" text-anchor="middle" font-family="Inter">R</text>
+                <text x="100" y="129" fill="white" font-size="8" text-anchor="middle" font-family="Inter">M</text>
+                <text x="100" y="159" fill="white" font-size="8" text-anchor="middle" font-family="Inter">B</text>
+              </svg>
+            </div>
+            <div class="legend">
+              <p>Red dots show the exact positions of your 4 FSR sensors on the chair back strap.</p>
+            </div>
+          </div>
+
+          <!-- Connection Status Card -->
+          <div class="card status-card">
+            <h3>Hardware Status</h3>
+            <div class="status-row">
+              <span>Bluetooth Status:</span>
+              <strong id="status-ble-text" class="text-disconnected">Disconnected</strong>
+            </div>
+            <div class="status-row">
+              <span>Target Node:</span>
+              <strong>Ergomax_Node</strong>
+            </div>
+            <div class="status-row">
+              <span>UUID:</span>
+              <code class="uuid-code">19B10000...1214</code>
+            </div>
+            <div class="system-registry-toggle">
+              <label class="switch-container">
+                <input type="checkbox" id="chk-startup" checked>
+                <span class="slider"></span>
+                <span>Launch app on Windows startup</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- STANDING BREAK MODAL (FULLSCREEN) -->
+  <div class="break-modal" id="break-modal">
+    <div class="break-content">
+      <h2>Time to Stand Up!</h2>
+      <p>Continuous sitting threshold reached. Protect your spinal health by taking a active standing/walking break.</p>
+      <div class="break-timer-circle">
+        <svg viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" class="bg"></circle>
+          <circle cx="50" cy="50" r="42" class="progress" id="modal-ring"></circle>
+        </svg>
+        <div class="modal-time" id="modal-time">03:00</div>
+      </div>
+      <p class="break-instruction">Step away from the chair. The timer will automatically tick down when you stand.</p>
+    </div>
+  </div>
+
+  <!-- ACTIVE ROUTINE MODAL -->
+  <div class="routine-modal" id="routine-modal">
+    <div class="routine-modal-content">
+      <h2 id="routine-modal-title">Routine Title</h2>
+      <p id="routine-modal-desc">Routine description goes here.</p>
+      <div class="routine-steps-box">
+        <h4 id="routine-step-counter">Step 1 of 5</h4>
+        <p id="routine-step-text">Get ready...</p>
+      </div>
+      <div class="routine-timer" id="routine-timer-text">60s</div>
+      <button class="btn btn-danger" id="btn-stop-routine">End Routine</button>
+    </div>
+  </div>
+  <!-- App JS Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
+
