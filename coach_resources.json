@@ -1,0 +1,122 @@
+{
+  "desk_stretches": [
+    {
+      "id": "neck_release",
+      "title": "Upper Trapezium & Neck Release",
+      "duration_secs": 45,
+      "benefit": "Relieves tension in the neck and shoulders caused by looking down at screens.",
+      "steps": [
+        "Sit upright and place your right hand under your right thigh.",
+        "Gently tilt your left ear towards your left shoulder until you feel a comfortable stretch.",
+        "For a deeper stretch, place your left hand on the right side of your head and apply very light pressure.",
+        "Hold for 20 seconds, then slowly release and repeat on the opposite side."
+      ]
+    },
+    {
+      "id": "chest_opener",
+      "title": "Seated Chest Opener",
+      "duration_secs": 30,
+      "benefit": "Counters the rounded-shoulder position and opens up the thoracic spine.",
+      "steps": [
+        "Sit near the front edge of your chair.",
+        "Interlace your fingers behind your back (or hold a towel if your hands don't reach).",
+        "Roll your shoulders back, straighten your arms, and gently lift your chest towards the ceiling.",
+        "Take 5 deep breaths, focusing on expanding your ribcage. Release slowly."
+      ]
+    },
+    {
+      "id": "seated_twist",
+      "title": "Thoracic Spine Seated Twist",
+      "duration_secs": 40,
+      "benefit": "Improves rotational mobility in the mid-back and relieves lower back tightness.",
+      "steps": [
+        "Sit tall with your feet flat on the floor, hips width apart.",
+        "Place your right hand on the outside of your left knee, and wrap your left arm behind your chair back.",
+        "Inhale to grow tall, then exhale to gently twist your torso to the left, looking over your left shoulder.",
+        "Hold for 15-20 seconds. Repeat on the other side."
+      ]
+    }
+  ],
+  "core_activation": [
+    {
+      "id": "tva_activation",
+      "title": "Transverse Abdominis (TVA) Bracing",
+      "duration_secs": 60,
+      "benefit": "Activates the deep 'corset' muscle of your abdomen, providing natural lumbar support.",
+      "steps": [
+        "Sit comfortably upright without leaning against the backrest.",
+        "Place your hands on your lower abdomen, just inside your hip bones.",
+        "Exhale fully, and pull your belly button gently inward towards your spine (imagine zip-up pants).",
+        "Hold this light contraction (about 20% of max effort) while breathing normally for 10 seconds.",
+        "Relax and repeat 5 times."
+      ]
+    },
+    {
+      "id": "seated_pelvic_clock",
+      "title": "Seated Pelvic Clock Exercises",
+      "duration_secs": 60,
+      "benefit": "Re-establishes pelvic awareness and releases tight lumbar muscles.",
+      "steps": [
+        "Sit in a neutral position with your sit-bones pressing evenly into the chair.",
+        "Imagine your pelvis is a clock face (12 is your belly button, 6 is your tailbone, 9 and 3 are your hips).",
+        "Gently tilt your pelvis forward to point at 6 o'clock (creating a arch in your lower back).",
+        "Slowly tilt backward to point at 12 o'clock (tucking your tailbone and flattening your back).",
+        "Alternate smoothly back and forth, holding each position for 3 seconds."
+      ]
+    }
+  ],
+  "ergonomic_setup": [
+    {
+      "category": "Chair & Seating",
+      "tips": [
+        "Adjust seat height so your feet rest flat on the floor and your knees are at a 90-degree angle.",
+        "Your thighs should be parallel to the floor, with a 2-3 finger gap between the seat edge and your knees.",
+        "Position the backrest to lean slightly back (100 to 110 degrees) rather than a rigid 90 degrees."
+      ]
+    },
+    {
+      "category": "Desk & Inputs",
+      "tips": [
+        "Keyboard and mouse should be at a height where your elbows are at 90 degrees, resting close to your sides.",
+        "Avoid reaching forward; place your mouse immediately next to your keyboard numeric pad.",
+        "If your shoulders shrug when typing, your armrests or desk are too high."
+      ]
+    },
+    {
+      "category": "Monitor & Sightlines",
+      "tips": [
+        "The top third of your monitor screen should be at eye level when looking straight ahead.",
+        "Position the screen about an arm's length away (20-30 inches).",
+        "If you wear progressive or bifocal lenses, lower the monitor slightly to prevent tilting your chin up."
+      ]
+    }
+  ],
+  "micro_routines": [
+    {
+      "id": "pelvic_tilts",
+      "title": "Sagittal Pelvic Micro-Tilts",
+      "description": "A 60-second movement sequence to mobilize the pelvis and lower lumbar spine.",
+      "duration_secs": 60,
+      "steps": [
+        { "time": 0, "instruction": "Sit away from the backrest, hands on your knees." },
+        { "time": 10, "instruction": "Tilt your pelvis forward, arching your lower back. Hold for 3s." },
+        { "time": 25, "instruction": "Tilt your pelvis backward, tucking your tailbone and rounding your lower back. Hold for 3s." },
+        { "time": 40, "instruction": "Find the mid-point between the two extremes (neutral pelvis). Engage your abs slightly." },
+        { "time": 55, "instruction": "Relax and take a deep breath." }
+      ]
+    },
+    {
+      "id": "scapular_resets",
+      "title": "Scapular Resets",
+      "description": "A 60-second active shoulder alignment exercise to reverse chest tightness.",
+      "duration_secs": 60,
+      "steps": [
+        { "time": 0, "instruction": "Sit tall with your arms hanging relaxed by your sides." },
+        { "time": 10, "instruction": "Roll your shoulders up toward your ears, then roll them back and down. Hold for 5s." },
+        { "time": 25, "instruction": "Squeeze your shoulder blades together as if holding a pencil between them. Hold for 5s." },
+        { "time": 40, "instruction": "Hold the blades down and back, and slowly turn your head to the left, then to the right." },
+        { "time": 55, "instruction": "Relax your shoulders, maintaining a neutral, wide collarbone position." }
+      ]
+    }
+  ]
+}

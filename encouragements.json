@@ -1,0 +1,75 @@
+{
+  "score_brackets": {
+    "excellent": {
+      "min_score": 85,
+      "messages": [
+        "Outstanding day! Your spine alignment was exceptionally stable and balanced.",
+        "Champion posture! You kept your upper back supported and took all your standing breaks.",
+        "Exceptional work today! Your core engagement is setting a new gold standard.",
+        "Flawless alignment! Your back rest is thanking you for the even distribution."
+      ]
+    },
+    "good": {
+      "min_score": 70,
+      "messages": [
+        "Great job today! You maintained solid alignment for the majority of your session.",
+        "Solid effort! You're building healthy habits with consistent back support.",
+        "Well done! You kept slouching to a minimum and responded quickly to haptic alerts.",
+        "Good posture score! A few more standing breaks will push you into the excellent zone."
+      ]
+    },
+    "moderate": {
+      "min_score": 50,
+      "messages": [
+        "A decent session, but watch out for slouching as fatigue sets in.",
+        "You had moderate support today. Try to sit all the way back in your seat.",
+        "Focus on your shoulders tomorrow—they tended to hunched forward in the afternoon.",
+        "A step in the right direction. Let's aim to get those standing breaks up tomorrow."
+      ]
+    },
+    "needs_work": {
+      "min_score": 0,
+      "messages": [
+        "Today was tough on your spine. Let's make tomorrow a fresh start for alignment.",
+        "You spent a significant amount of time leaning forward. Remember your lumbar support.",
+        "Your haptic correction rate was low today. Try resetting your posture when alerted.",
+        "Frequent slouching detected. Consider adjusting your screen height to help keep you upright."
+      ]
+    }
+  },
+  "comparative": {
+    "improved": [
+      "Great job! Your core engagement was {pct}% more stable today than yesterday!",
+      "Progress! You reduced your total slouching time by {pct}% compared to yesterday.",
+      "Fantastic improvement! You completed {pct}% more standing breaks today.",
+      "You responded to haptic warnings {pct}% faster today. Your muscle memory is growing!"
+    ],
+    "declined": [
+      "Your alignment score dropped by {pct}% today. Rest up and reset tomorrow.",
+      "You spent {pct}% more time slouching today. Try raising your monitor height.",
+      "Standing break compliance was down {pct}%. Let's prioritize those breaks tomorrow."
+    ]
+  },
+  "targeted_feedback": {
+    "left_leaning": [
+      "Symmetry Alert: You leaned heavily toward your left shoulder today. Try centering yourself.",
+      "Noticeable left-side tilt detected. Check if your elbow rests are aligned."
+    ],
+    "right_leaning": [
+      "Symmetry Alert: You leaned heavily toward your right shoulder today. Try centering yourself.",
+      "Noticeable right-side tilt detected. Check if your elbow rests are aligned."
+    ],
+    "low_lumbar_contact": [
+      "Your bottom was slid too far forward today. Keep your hips touching the back of the chair.",
+      "Lumbar support was frequently lost. Slide back in your seat to re-engage the lumbar sensor."
+    ],
+    "high_break_compliance": [
+      "Standing break superstar! Your regular mobility breaks are protecting your spine.",
+      "Perfect break compliance! Your active recovery is keeping your muscles refreshed."
+    ],
+    "low_break_compliance": [
+      "Stuck in your chair? Remember, taking a 3-minute stand every hour is crucial.",
+      "Try not to ignore the standing alerts. Even a brief stretch keeps your energy up."
+    ]
+  }
+}

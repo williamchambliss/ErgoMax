@@ -1,0 +1,18 @@
+{
+  "2026-06-15": {
+    "good_alignment_mins": 0.0,
+    "active_rest_mins": 0.2833333333333333,
+    "bad_posture_mins": 0.31666666666666665,
+    "sedentary_stretch_mins": 0.3,
+    "current_sitting_streak_mins": 0.31666666666666665,
+    "symmetry_ub_l_mins": 0.0,
+    "symmetry_ub_r_mins": 0.31666666666666665,
+    "cues_sent": 0,
+    "total_correction_speed_secs": 0.0,
+    "average_correction_speed_secs": 0.0,
+    "breaks_completed": 0,
+    "breaks_target": 8,
+    "daily_score": 28,
+    "symmetry_index": 0
+  }
+}
