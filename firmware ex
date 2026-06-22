@@ -1,0 +1,130 @@
+#include <ArduinoBLE.h>
+
+const int NUM_ZONES = 4;
+
+// Physical hardware pin assignments based on your wiring setup
+const int PIN_UPPER_RIGHT = A3;
+const int PIN_MID_BACK    = A2;
+const int PIN_UPPER_LEFT  = A0;
+const int PIN_LOWER_BACK  = A1;
+
+// Haptic output pins (Clean, un-aliased PWM channels)
+const int HAPTIC_PINS[NUM_ZONES] = {3, 5, 6, 11}; 
+
+// Sensitivity Multiplier (1.0 = Default, 2.0 = Double Sensitivity, etc.)
+const float SENSITIVITY_GAIN = 1.0; 
+
+BLEService ergomaxService("19B10000-E8F2-537E-4F6C-D104768A1214");
+BLECharacteristic txDataCharacteristic("19B10001-E8F2-537E-4F6C-D104768A1214", BLERead | BLENotify, 4);
+BLECharacteristic rxHapticCharacteristic("19B10002-E8F2-537E-4F6C-D104768A1214", BLEWrite, 4);
+
+// This buffer will hold data matching the PC software contract order perfectly
+byte currentSensorPayload[NUM_ZONES] = {0, 0, 0, 0}; 
+byte hapticBuffer[NUM_ZONES]         = {0, 0, 0, 0}; 
+
+unsigned long lastSampleTime = 0;
+const unsigned long SAMPLE_RATE_MS = 500; // 2Hz Heartbeat update
+
+void setup() {
+  for (int i = 0; i < NUM_ZONES; i++) {
+    pinMode(HAPTIC_PINS[i], OUTPUT);
+    digitalWrite(HAPTIC_PINS[i], LOW); 
+  }
+
+  Serial.begin(9600);
+  delay(1500); 
+
+  // Configure Analog Pins
+  pinMode(PIN_UPPER_RIGHT, INPUT);
+  pinMode(PIN_MID_BACK,    INPUT);
+  pinMode(PIN_UPPER_LEFT,  INPUT);
+  pinMode(PIN_LOWER_BACK,  INPUT);
+
+  if (!BLE.begin()) {
+    Serial.println("Hardware Error: BLE subsystem failed to start.");
+    while (1);
+  }
+
+  BLE.setLocalName("Ergomax_Node");
+  BLE.setAdvertisedService(ergomaxService);
+  ergomaxService.addCharacteristic(txDataCharacteristic);
+  ergomaxService.addCharacteristic(rxHapticCharacteristic);
+  BLE.addService(ergomaxService);
+
+  txDataCharacteristic.writeValue(currentSensorPayload, 4);
+  BLE.advertise();
+  Serial.println("Ergomax Node Packet-Aligned. Awaiting PC Handshake...");
+}
+
+void loop() {
+  BLEDevice pcClient = BLE.central();
+
+  if (pcClient) {
+    Serial.print("Secure data link open with PC: ");
+    Serial.println(pcClient.address());
+
+    while (pcClient.connected()) {
+      unsigned long currentTime = millis();
+
+      // --- TASK A: TELEMETRY OUT (TX) ---
+      if (currentTime - lastSampleTime >= SAMPLE_RATE_MS) {
+        lastSampleTime = currentTime;
+
+        // 1. Read raw analog data from all physical pins
+        int rawLowerBack  = analogRead(PIN_LOWER_BACK);
+        int rawMidBack    = analogRead(PIN_MID_BACK);
+        int rawUpperLeft  = analogRead(PIN_UPPER_LEFT);
+        int rawUpperRight = analogRead(PIN_UPPER_RIGHT);
+        
+        // 2. Compress (10-bit to 8-bit), apply sensitivity gain, and constrain to 0-255 bounds
+        int valLowerBack  = (int)((rawLowerBack >> 2) * SENSITIVITY_GAIN);
+        int valMidBack    = (int)((rawMidBack >> 2) * SENSITIVITY_GAIN);
+        int valUpperLeft  = (int)((rawUpperLeft >> 2) * SENSITIVITY_GAIN);
+        int valUpperRight = (int)((rawUpperRight >> 2) * SENSITIVITY_GAIN);
+
+        if (valLowerBack  > 255) valLowerBack  = 255;
+        if (valMidBack    > 255) valMidBack    = 255;
+        if (valUpperLeft  > 255) valUpperLeft  = 255;
+        if (valUpperRight > 255) valUpperRight = 255;
+
+        // 3. CRITICAL: Pack into the exact order the PC program expects over BLE
+        currentSensorPayload[0] = (byte)valLowerBack;  // Index 0: Lower Back
+        currentSensorPayload[1] = (byte)valMidBack;    // Index 1: Mid Back
+        currentSensorPayload[2] = (byte)valUpperLeft;  // Index 2: Upper Left
+        currentSensorPayload[3] = (byte)valUpperRight; // Index 3: Upper Right
+
+        // 4. Ship the structured packet over the air
+        txDataCharacteristic.writeValue(currentSensorPayload, 4);
+        
+        // Output clean scrolling telemetry to the Serial Monitor
+        Serial.print("BLE Stream -> [0] Lower Back: "); Serial.print(currentSensorPayload[0]);
+        Serial.print(" | [1] Mid Back: "); Serial.print(currentSensorPayload[1]);
+        Serial.print(" | [2] Upper Left: "); Serial.print(currentSensorPayload[2]);
+        Serial.print(" | [3] Upper Right: "); Serial.println(currentSensorPayload[3]);
+      }
+
+      // --- TASK B: PROTECTED ACTUATOR INGESTION (RX) ---
+      if (rxHapticCharacteristic.written()) {
+        if (rxHapticCharacteristic.valueLength() == 4) {
+          rxHapticCharacteristic.readValue(hapticBuffer, 4);
+          
+          Serial.print("Inbound Haptic Frame Executed -> ");
+          for (int i = 0; i < NUM_ZONES; i++) {
+            // Note: This maps haptic commands back out to your physical motors in the exact same index order.
+            // When the PC sends Write[0], it targets HAPTIC_PINS[0] (Digital Pin 3).
+            analogWrite(HAPTIC_PINS[i], hapticBuffer[i]);
+            Serial.print("[Z"); Serial.print(i); Serial.print(":");
+            Serial.print(hapticBuffer[i]); Serial.print("] ");
+          }
+          Serial.println();
+        }
+      }
+    }
+
+    // Link dropped safe-state
+    Serial.println("Link dropped. Safety disarm triggered.");
+    for (int i = 0; i < NUM_ZONES; i++) {
+      analogWrite(HAPTIC_PINS[i], 0);
+    }
+  }
+}
