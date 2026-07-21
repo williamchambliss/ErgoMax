@@ -43,7 +43,7 @@
 ```[cite: 1]
 
 ---
-
+```
 ## Expert Validation & Team
 
 ### Clinical & Academic Advisors
