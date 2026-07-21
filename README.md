@@ -40,9 +40,7 @@
                                                                 v
                                                      [ Localized Haptics ]
                                                      (Wave / Continuous)
-```
 
----
 ```
 ## Expert Validation & Team
 
